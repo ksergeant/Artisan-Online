@@ -8,15 +8,17 @@
 #include "header/class.hpp"
 #include "Moks/header/Moks.hpp"
 #include "Jeu.hpp"
+#include "player.hpp"
+#include <array>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
     // Chargement du fichier de sauvegarde du jeu
-    
     boost::shared_ptr<Jeu> myGame (boost::make_shared<Jeu>());
     
+    /* 
     cout << "Chargement des données \n";
     // Chargement des données
     std::ifstream ifile("Save");
@@ -28,8 +30,7 @@ int main(int argc, char *argv[])
     std::ofstream ofile("Save");
     boost::archive::text_oarchive oTextArchive(ofile);
     oTextArchive << myGame;    // sérialisation de d
-
-    
+*/
     cout <<endl;
     // Initialisation de la SDL2
     cout << "Start\n";
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
     }
 
     // Creation de la fenêtre principale
-    SDL_Window *window = SDL_CreateWindow("Artisan 0.1", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+    SDL_Window *window = SDL_CreateWindow("Artisan Online", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
     1440, 800, SDL_WINDOW_SHOWN);
 
     if (window == nullptr)
@@ -61,14 +62,26 @@ int main(int argc, char *argv[])
     spriteManager mySpriteManager;
 
     // Chemin des images
-    string path1 = "background.png";
-    string path2 = "Brick2.png";
+    string path1 = "Map1.png";
+    string path2 = "perso_tilesheet.png";
 
     // Creation et ajout des sprites dans le Manager
-    mySpriteManager.addSprite("Background", 0, 0, 1, 1, path1);
-    
-    int posY=0;
+    mySpriteManager.addSprite("Background", -150, -150, 3, 3, path1);
+   // mySpriteManager.addSprite("TileSheetPerso", 0, 0, 1, 1, path2);
+     
+    // Création de la tilesheet 32x32
+    int tileWidth = 32;
+    int tileHeight = 32;
+    player player1("Kirito", 40, 40);
+    player1.setSpriteSheet(renderer, path2, tileWidth, tileHeight, 32, 32, 0, 0);
+    cout << "Liste de rectangle du player 1 : " << player1.listeRect.size() << endl;
+    array <int,1000> arrTest1={0,1,2};
+    player1.recToAnimation(arrTest1,"Animation1");
+    cout << "Liste de rectangle de la premiere animation : "<<player1.listeAnimation[0]->listeRectAni.size() << endl;
 
+
+/* 
+int posY=0;
     for (int i2=0; i2 < 5; i2++)
     {
         int posX=0;
@@ -82,10 +95,12 @@ int main(int argc, char *argv[])
         posY = posY + 25;
     }
 
+*/
     // Chargement des textures de tous les sprites
     mySpriteManager.loadAllTexture(renderer);
-  
+   
     // Boucle globale tant que la fenetre est ouverte
+    int posY =0;
     while (true)
     {
         SDL_Event event;
@@ -98,8 +113,34 @@ int main(int argc, char *argv[])
             }
         }
 
-        // Affichage de tous les sprites par ordre d'ajout dans le vecteur des sprites
+
+
+Uint32 ticks = SDL_GetTicks();
+Uint32 delai = (ticks / 90) % 4;
+if (delai == 0) 
+{
+    posY = 5;
+}
+if (delai ==1) 
+{
+    posY = 10;
+}
+if (delai >=3) 
+{
+    delai =2;
+    posY = 15;
+}
+
+SDL_Rect test ={20, posY, 64, 64};
+//cout << delai <<endl;
+
+        SDL_RenderClear(renderer);
+         // Affichage de tous les sprites par ordre d'ajout dans le vecteur des sprites
         mySpriteManager.update(renderer);
+        SDL_RenderCopy(renderer, player1.texture, &player1.listeAnimation[0]->listeRectAni[delai], &test);
+
+        SDL_RenderPresent(renderer);
+       
 
     }
 

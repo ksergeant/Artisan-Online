@@ -17,6 +17,7 @@ class spriteManager
         ~spriteManager();
         vector <shared_ptr<sprite> > listeSprites;
         void addSprite(string nom, int x, int y, double scaleX, double scaleY, string path_image);
+        void cutTileSheet(string nom, int x, int y, double scaleX, double scaleY, string path_image, int tileWidth, int tileHeight, SDL_Renderer *renderer);
         void loadAllTexture(SDL_Renderer *renderer);
         void update(SDL_Renderer *renderer);
         
