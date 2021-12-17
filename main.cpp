@@ -75,10 +75,12 @@ int main(int argc, char *argv[])
     player player1("Kirito", 40, 40);
     player1.setSpriteSheet(renderer, path2, tileWidth, tileHeight, 32, 32, 0, 0);
     cout << "Liste de rectangle du player 1 : " << player1.listeRect.size() << endl;
-    array <int,1000> arrTest1={0,1,2};
+    vector<int> arrTest1;
+    arrTest1.push_back(0);
+    arrTest1.push_back(1);
+    arrTest1.push_back(2);
     player1.recToAnimation(arrTest1,"Animation1");
     cout << "Liste de rectangle de la premiere animation : "<<player1.listeAnimation[0]->listeRectAni.size() << endl;
-
 
 /* 
 int posY=0;
@@ -107,6 +109,32 @@ int posY=0;
         
         if (SDL_PollEvent(&event))
         {
+           int Deplacement = 20;
+            switch(event.key.keysym.sym)
+            {
+                case SDLK_LEFT:
+                    player1.move(0,Deplacement);
+                    cout << "move LEFT" << endl;
+                    break;
+                case SDLK_RIGHT:
+                    player1.move(1,Deplacement);
+                    cout << "move RIGHT" << endl;
+                    break;
+                case SDLK_UP:
+                    player1.move(2,Deplacement);
+                    cout << "move UP" << endl;
+                    break;
+                case SDLK_DOWN:
+                    player1.move(3,Deplacement);
+                    cout << "move DOWN" << endl;
+                    break;
+
+                default:
+                    break;
+
+            }
+
+
             if (event.type == SDL_QUIT)
             {
                 break;
@@ -114,7 +142,7 @@ int posY=0;
         }
 
 
-
+/* 
 Uint32 ticks = SDL_GetTicks();
 Uint32 delai = (ticks / 90) % 4;
 if (delai == 0) 
@@ -131,13 +159,14 @@ if (delai >=3)
     posY = 15;
 }
 
-SDL_Rect test ={20, posY, 64, 64};
+*/
+SDL_Rect test ={player1.x, player1.y, 64, 64};
 //cout << delai <<endl;
 
         SDL_RenderClear(renderer);
          // Affichage de tous les sprites par ordre d'ajout dans le vecteur des sprites
         mySpriteManager.update(renderer);
-        SDL_RenderCopy(renderer, player1.texture, &player1.listeAnimation[0]->listeRectAni[delai], &test);
+        SDL_RenderCopy(renderer, player1.texture, &player1.listeAnimation[0]->listeRectAni[0], &test);
 
         SDL_RenderPresent(renderer);
        

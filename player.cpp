@@ -73,7 +73,7 @@ void player::setSpriteSheet(SDL_Renderer *renderer, string path_image, int tileW
 }
 
 // Formate les SDL_Rect de la listeRect du perso pour les transformer en Objet animation 
-void player::recToAnimation(array<int,1000> arrIndex, string nomAnimation)
+void player::recToAnimation(vector<int> arrIndex, string nomAnimation)
 {
     cout << "test 1" <<endl;
     array <int,3> arrTest1={0,1,2};
@@ -84,20 +84,21 @@ void player::recToAnimation(array<int,1000> arrIndex, string nomAnimation)
     animation animTempo(nomAnimation);
     cout << "test 2" <<endl;
     shared_ptr <animation> animationTempo(make_shared<animation>(animTempo));
-cout << "test 3" <<endl;
+
+    cout << "test 3" <<endl;
     // Tant qu'il y a des index on les ajoute dans l'animation
-    int tailleIndex = arrTest1.size();
+    int tailleIndex = arrIndex.size();
     cout << "taille index : "  <<tailleIndex<<endl;
     for(int i = 0; i < tailleIndex; i++)
     {    
         SDL_Rect rectempo = {0, 0, 0, 0};
         SDL_Rect ptr = rectempo;
-        ptr = listeRect[arrTest1[i]];
+        ptr = listeRect[arrIndex[i]];
         animationTempo->setRect(ptr); 
         cout << "test 4" <<endl;     
     }
 
-cout << "test 5" <<endl;
+    cout << "test 5" <<endl;
     this->listeAnimation.push_back(animationTempo);
     cout << "test 6" <<endl;
 }
@@ -127,3 +128,33 @@ void player::LoadTexture(SDL_Renderer *renderer)
     }
     
 }
+
+ void player::move(int direction, int pixelDeplacement)
+ {
+     switch(direction)
+     {
+         // LEFT
+        case 0:
+            this->x -= pixelDeplacement;
+            break;
+
+        // RIGHT
+        case 1:
+            this->x += pixelDeplacement;
+            break;
+
+        // UP
+        case 2:
+            this->y -= pixelDeplacement;
+            break;
+
+        // DOWN
+        case 3:
+            this->y += pixelDeplacement;
+            break;
+
+        default:
+            break;
+     }
+
+ }

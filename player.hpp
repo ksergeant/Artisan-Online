@@ -21,12 +21,14 @@ class player
         SDL_Texture * texture; // SpriteSheet 
         vector <SDL_Rect> listeRect; // Vecteur de rectangle (chaque rectangle correspond à une image)
         vector <shared_ptr<animation> > listeAnimation;
-        void recToAnimation(array<int,1000>, string nomAnimation);
+        void recToAnimation(vector<int> arrIndex, string nomAnimation);
         void getAnimation();
-
-    private:
+        void move(int direction, int pixelDeplacement);
         int x;
         int y;
+        
+    private:
+        
         int xRect, yRect, dimension_w, dimension_h;
         double scaleX, scaleY;   
         string path_image;
