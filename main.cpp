@@ -15,6 +15,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+
+    bool quit = false;
     // Chargement du fichier de sauvegarde du jeu
     boost::shared_ptr<Jeu> myGame (boost::make_shared<Jeu>());
     
@@ -103,42 +105,64 @@ int posY=0;
    
     // Boucle globale tant que la fenetre est ouverte
     int posY =0;
-    while (true)
+    while (!quit)
     {
         SDL_Event event;
         
         if (SDL_PollEvent(&event))
         {
            int Deplacement = 20;
-            switch(event.key.keysym.sym)
+ 
+            switch (event.type)
             {
-                case SDLK_LEFT:
-                    player1.move(0,Deplacement);
-                    cout << "move LEFT" << endl;
-                    break;
-                case SDLK_RIGHT:
-                    player1.move(1,Deplacement);
-                    cout << "move RIGHT" << endl;
-                    break;
-                case SDLK_UP:
-                    player1.move(2,Deplacement);
-                    cout << "move UP" << endl;
-                    break;
-                case SDLK_DOWN:
-                    player1.move(3,Deplacement);
-                    cout << "move DOWN" << endl;
+                case SDL_QUIT:
+                    quit = true;
                     break;
 
-                default:
-                    break;
+                // si une touche est pressée on rentre dans ce switch
+                case SDL_KEYDOWN:
+                    switch(event.key.keysym.sym)
+                    {
+                        case SDLK_LEFT:
+                            player1.move(0,Deplacement);
+                            cout << "move LEFT" << endl;
+                            break;
+                        case SDLK_RIGHT:
+                            player1.move(1,Deplacement);
+                            cout << "move RIGHT" << endl;
+                            break;
+                        case SDLK_UP:
+                            player1.move(2,Deplacement);
+                            cout << "move UP" << endl;
+                            break;
+                        case SDLK_DOWN:
+                            player1.move(3,Deplacement);
+                            cout << "move DOWN" << endl;
+                            break;
 
-            }
+                        default:
+                            break;
 
-
-            if (event.type == SDL_QUIT)
-            {
+                    }
                 break;
+
+                // si la souris est utilisée on rentre dans ce switch
+                case SDL_MOUSEBUTTONDOWN:
+                    switch (event.button.button)
+                    {
+                        case SDL_BUTTON_LEFT:
+                            SDL_ShowSimpleMessageBox(0, "Mouse", "Left button was pressed!", window);
+                            break;
+                        case SDL_BUTTON_RIGHT:
+                            SDL_ShowSimpleMessageBox(0, "Mouse", "Right button was pressed!", window);
+                            break;
+                        default:
+                            SDL_ShowSimpleMessageBox(0, "Mouse", "Some other button was pressed!", window);
+                            break;
+                    }
+                    break;
             }
+
         }
 
 
