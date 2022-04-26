@@ -16,12 +16,15 @@ class sprite
         void LoadTexture(SDL_Renderer *renderer);
         SDL_Texture * texture;
         SDL_Rect rectangle;
+        int xRect, yRect, dimension_w, dimension_h;
+        bool modeDebug;
+        string nom;
 
     private:
-        int xRect, yRect, dimension_w, dimension_h;
+        //int xRect, yRect, dimension_w, dimension_h;
         double scaleX, scaleY;   
         string path_image;
-        string nom;
+        
 };
 
 #endif

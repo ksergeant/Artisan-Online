@@ -5,6 +5,8 @@ player::player(string nom, int x, int y)
     this->nom = nom;
     this->x = x;
     this->y = y;
+    this->scaleX = 1;
+    this->scaleY = 1;
 }
 
 player::~player()
@@ -65,8 +67,12 @@ void player::setSpriteSheet(SDL_Renderer *renderer, string path_image, int tileW
             decalTempoY = decalTempoY + tileHeight;
         }
 
+        cout << "dimension_w -> " << dimensionTempoW <<endl;
+        cout << "dimension_h -> " << dimensionTempoH <<endl;
         SDL_Rect rectexture2 = {xRect, yRect, (dimension_w * scaleX), (dimension_h * scaleY)}; // Rectangle pour afficher l'image
-        //rectangle = rectexture2; 
+        //cout << "ScaleX: " << scaleX << " ScaleY: " << scaleY <<endl; 
+ 
+       //rectangle = rectexture2; 
         cout << "Chargement de la texture du sprite: " << nom << " Reussi"<< endl;
     }
 

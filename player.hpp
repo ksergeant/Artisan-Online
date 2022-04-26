@@ -26,10 +26,10 @@ class player
         void move(int direction, int pixelDeplacement);
         int x;
         int y;
-        
+        int xRect, yRect, dimension_w, dimension_h;
     private:
         
-        int xRect, yRect, dimension_w, dimension_h;
+        // int xRect, yRect, dimension_w, dimension_h;
         double scaleX, scaleY;   
         string path_image;
         string nom;

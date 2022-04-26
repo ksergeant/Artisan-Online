@@ -20,6 +20,7 @@ class spriteManager
         void cutTileSheet(string nom, int x, int y, double scaleX, double scaleY, string path_image, int tileWidth, int tileHeight, SDL_Renderer *renderer);
         void loadAllTexture(SDL_Renderer *renderer);
         void update(SDL_Renderer *renderer);
+        void launchModeDebug();
         
     private:
         

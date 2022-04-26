@@ -8,6 +8,7 @@ sprite::sprite(string nom, int x, int y, double scaleX, double scaleY, string pa
     this->scaleX = scaleX;
     this->scaleY = scaleY;
     this->path_image = path_image;    
+    this->modeDebug = false;
 }
 
 sprite::~sprite()
@@ -27,7 +28,9 @@ void sprite::LoadTexture(SDL_Renderer *renderer)
     else 
     {
         SDL_QueryTexture(texture, NULL, NULL, &dimension_w, &dimension_h); // récuperation des dimensions de la texture
-        SDL_Rect rectexture2 = {xRect, yRect, (dimension_w * scaleX), (dimension_h * scaleY)}; // Rectangle pour afficher l'image
+        dimension_w = dimension_w * scaleX;
+        dimension_h = dimension_h * scaleY;
+        SDL_Rect rectexture2 = {xRect, yRect, dimension_w, dimension_h}; // Rectangle pour afficher l'image
         rectangle = rectexture2; 
         cout << "Chargement de la texture du sprite: " << nom << " Reussi"<< endl;
     }
