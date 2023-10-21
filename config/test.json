@@ -1,0 +1,13 @@
+{
+   "a" : [ 1, 2, 3, 4 ],
+   "f" : false,
+   "fb" : true,
+   "hello" : "world",
+   "i" : 123,
+   "n" : null,
+   "perso_tilesheet" : [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
+   "pi" : 3.1415999999999999,
+   "t" : true,
+   "tilesheet1" : [ 42 ],
+   "tilesheet2" : null
+}

@@ -1,0 +1,38 @@
+{
+   "nom_tilesheet" : "perso_tilesheet.png",
+   "chemin_tilesheet" : "",
+   "taille_sprite_largeur" : 32,
+   "taille_sprite_hauteur" : 32,
+   "nombre_sprite_largeur" : 12,
+   "nombre_sprite_hauteur" : 8,
+   
+   "kirito_tenue_base" : [ 1, 2, 3,
+   13, 14, 15, 
+   25, 26, 27, 
+   37, 38, 39 ],
+
+   "kirito_tenue_debutant" : [ 4, 5, 6, 
+   16, 17, 18, 
+   28, 29, 30,
+   40, 41, 42],
+
+   "kirito_tenue_guilde" : [ 7, 8, 9, 
+   19, 20, 21, 
+   31, 32, 33,
+   43, 44, 45],
+
+   "kirito_tenue_hiver" : [ 10, 11, 12, 
+   22, 23, 24, 
+   34, 35, 36,
+   46, 47, 48],
+
+   "asuna_tenue_base" : [ 49, 50, 51,  
+   61, 62, 63,
+   73, 74, 75,
+   85, 86, 87],
+
+   "asuna_tenue_pyjama" : [ 52, 53, 54,  
+   64, 65, 66,
+   76, 77, 78,
+   88, 89, 90]
+}

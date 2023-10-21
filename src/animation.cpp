@@ -1,4 +1,4 @@
-#include "animation.hpp"
+#include "../include/animation.hpp"
 
 animation::animation(string nom)
 {
@@ -18,6 +18,7 @@ void animation::getRect()
         
     }
 }
+
 void animation::setRect(SDL_Rect ptr)
 {
     this->listeRectAni.push_back(ptr);

@@ -1,21 +1,55 @@
-#include <iostream> // cout
+#include <iostream> // Cout
 #include <memory> // Smart Pointers
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "sprite.hpp"
-#include "spriteManager.hpp"
-#include "header/fonction.hpp"
-#include "header/class.hpp"
-#include "Moks/header/Moks.hpp"
-#include "Jeu.hpp"
-#include "player.hpp"
 #include <sstream>
 #include <array>
+#include <fstream>
+#include <json/json.h> // Json
+#include <json/writer.h> // Json
+
+#include "../include/moks.hpp" // Framework du jeu
+#include "../wrapper/wrapper.hpp" // Wrappper du jeu vers SDL2
+
+#include "../include/Jeu.hpp"
+#include "../include/player.hpp"
+#include "../include/sprite.hpp"
+#include "../include/spriteManager.hpp"
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+    wrapper myWP;
+    Moks myFW;
+    
+    // test Json
+    
+    fstream config_doc("config/test.json");
+
+    Json::Value root;
+    config_doc >> root;
+    config_doc.close();
+
+    Json::Value tilesheet1 = root["tilesheet1"];
+    Json::Value tilesheet2 = root["tilesheet2"];
+
+    cout << "Contenu Global du fichier :\n" << root << endl;
+    cout << "Contenu de tilesheet1 :\n" << tilesheet1[0] << endl;
+    tilesheet1[0] = 42;
+    cout << "Contenu de tilesheet1 après changement:\n" << tilesheet1[0] << endl;
+    cout << "Contenu de tilesheet2 :\n" << tilesheet2 << endl;
+    root["tilesheet1"] = tilesheet1;
+
+	Json::StyledWriter styledWriter;
+
+	ofstream ofs;
+	ofs.open("config/test.json", std::ofstream::out | std::ofstream::trunc);
+    ofs << styledWriter.write(root);
+	ofs.close();
+    
+    
+    cout <<"C++ 17"<<endl;
 
     bool quit = false;
     // Chargement du fichier de sauvegarde du jeu
@@ -35,13 +69,8 @@ int main(int argc, char *argv[])
     oTextArchive << myGame;    // sérialisation de d
 */
     cout <<endl;
-    // Initialisation de la SDL2
-    cout << "Start\n";
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-    {
-        cout << "Failed to initialise SDL\n";
-        return -1;
-    }
+ 
+    myWP.wrapper_init();
 
     // Creation de la fenêtre principale
     SDL_Window *window = SDL_CreateWindow("Artisan Online", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -66,16 +95,16 @@ int main(int argc, char *argv[])
     bool modeDebug=false;
 
     // Chemin des images
-    string path1 = "Map1.png";
-    string path2 = "perso_tilesheet.png";
-    string path3 = "buttonSquare_blue.png";
-    string path4 = "buttonSquare_blue_pressed.png";
-    string path5 = "Transperent/Icon1.png";
+    string path1 = "sprite/Map1.png";
+    string path2 = "sprite/perso_tilesheet.png";
+    string path3 = "sprite/buttonSquare_blue.png";
+    string path4 = "sprite/buttonSquare_blue_pressed.png";
+    string path5 = "sprite/Transperent/Icon1.png";
 
     // Creation et ajout des sprites dans le Manager
     mySpriteManager.addSprite("Background", 0, 0, 2, 2, path1);
-    mySpriteManager.addSprite("Bouton1", 300, 300, 1, 1, path3);
-    mySpriteManager.addSprite("Fish1", 860, 400, 1, 1, path5);
+    //mySpriteManager.addSprite("Bouton1", 300, 300, 1, 1, path3);
+    //mySpriteManager.addSprite("Fish1", 860, 400, 1, 1, path5);
     //mySpriteManager.addSprite("Bouton1Pressed", 300, 300, 1,1, path4);
     //mySpriteManager.addSprite("TileSheetPerso", 0, 0, 1, 1, path2);
      
@@ -83,9 +112,13 @@ int main(int argc, char *argv[])
     int tileWidth = 32;
     int tileHeight = 32;
     player player1("Kirito", 40, 40);
+    SDL_Texture * textureSpriteSheet1;
+
+    textureSpriteSheet1 = mySpriteManager.setSpriteSheet(renderer, textureSpriteSheet1, "Player1", path2, tileWidth, tileHeight, 64, 64, 0, 0, 2, 2);
 
     //SDL_Renderer *renderer, string path_image, int tileWidth, int tileHeight, int decalX, int decalY, int debutX, int debutY)
-
+    /*
+     void setSpriteSheet(SDL_Renderer *renderer, string nomSprite, string path_image, int tileWidth, int tileHeight, int decalX, int decalY, int debutX, int debutY);
     player1.setSpriteSheet(renderer, path2, tileWidth, tileHeight, 32, 32, 0, 0);
     cout << "Liste de rectangle du player 1 : " << player1.listeRect.size() << endl;
     vector<int> arrTest1;
@@ -94,9 +127,9 @@ int main(int argc, char *argv[])
     arrTest1.push_back(2);
     player1.recToAnimation(arrTest1,"Animation1");
     cout << "Liste de rectangle de la premiere animation : "<< player1.listeAnimation[0]->listeRectAni.size() << endl;
-
+    */
     // Chargement des textures de tous les sprites
-    mySpriteManager.loadAllTexture(renderer);
+    mySpriteManager.loadAllTexture(renderer, textureSpriteSheet1);
     
     // Boucle globale tant que la fenetre est ouverte
     int posY =0;
@@ -183,23 +216,28 @@ int main(int argc, char *argv[])
         }
         */
 
-       
-        int tailleW = 64;
-        int tailleH = 64;
-        SDL_Rect test ={player1.x, player1.y, tailleW, tailleH};
+
+       // int tailleW = 64;
+       // int tailleH = 64;
+       // SDL_Rect test ={player1.x, player1.y, tailleW, tailleH};
         //cout << delai <<endl;
 
-        SDL_RenderClear(renderer);
+        //SDL_RenderClear(renderer);
 
          // Affichage de tous les sprites par ordre d'ajout dans le vecteur des sprites
         mySpriteManager.update(renderer);
-        SDL_RenderCopy(renderer, player1.texture, &player1.listeAnimation[0]->listeRectAni[0], &test);
-        //SDL_RenderSetScale(renderer, 1, 1);
-
+       // SDL_RenderCopy(renderer, player1.texture, &player1.listeAnimation[0]->listeRectAni[0], &test);
+       /*
+       if(SDL_RenderCopy(renderer, textureSpriteSheet1, &mySpriteManager.listeSprites[5]->rectangleSrc, &mySpriteManager.listeSprites[5]->rectangleDst)!=0)
+       {
+        cout <<"Deuxieme test ";
+                    cout << SDL_GetError() <<endl;
+        }
+       // SDL_RenderSetScale(renderer, 1, 1);
+    */
         SDL_RenderPresent(renderer);
-    
     }
-
+    SDL_DestroyTexture(textureSpriteSheet1);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     IMG_Quit();

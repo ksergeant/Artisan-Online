@@ -8,6 +8,7 @@
 #include <vector>
 #include "animation.hpp"
 #include <array>
+#include "sprite.hpp"
 
 using namespace std;
 
@@ -27,6 +28,7 @@ class player
         int x;
         int y;
         int xRect, yRect, dimension_w, dimension_h;
+        shared_ptr<sprite> mySpriteActuel;
     private:
         
         // int xRect, yRect, dimension_w, dimension_h;

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Kevin. All rights reserved.
 //
 
-#include "Jeu.hpp"
+#include "../include/Jeu.hpp"
 
 Jeu::Jeu(){
     

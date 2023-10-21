@@ -1,4 +1,4 @@
-#include "player.hpp"
+#include "../include/player.hpp"
 
 player::player(string nom, int x, int y)
 {
@@ -13,8 +13,6 @@ player::~player()
 {
     SDL_DestroyTexture(texture);
 }
-
-
 
 // Découpe la spritesheet en SDL_Rect et remplir le vector liste des rectangles du personnage
 void player::setSpriteSheet(SDL_Renderer *renderer, string path_image, int tileWidth, int tileHeight, int decalX, int decalY,
@@ -55,13 +53,10 @@ void player::setSpriteSheet(SDL_Renderer *renderer, string path_image, int tileW
             int decalTempoX = 0;
             for(int i2 = 0; i2 < nombreImagesLargeur; i2++)
             {
-                SDL_Rect rectempo = {decalTempoX, decalTempoY, tileWidth, tileHeight};
-                
+                SDL_Rect rectempo = {decalTempoX, decalTempoY, tileWidth, tileHeight};  
                 SDL_Rect ptr=rectempo;
-                this->listeRect.push_back(ptr);
-                
-                decalTempoX = decalTempoX + tileWidth;
-                
+                this->listeRect.push_back(ptr);   
+                decalTempoX = decalTempoX + tileWidth;             
             }
 
             decalTempoY = decalTempoY + tileHeight;
@@ -69,7 +64,7 @@ void player::setSpriteSheet(SDL_Renderer *renderer, string path_image, int tileW
 
         cout << "dimension_w -> " << dimensionTempoW <<endl;
         cout << "dimension_h -> " << dimensionTempoH <<endl;
-        SDL_Rect rectexture2 = {xRect, yRect, (dimension_w * scaleX), (dimension_h * scaleY)}; // Rectangle pour afficher l'image
+        //SDL_Rect rectexture2 = {xRect, yRect, (dimension_w * scaleX), (dimension_h * scaleY)}; // Rectangle pour afficher l'image
         //cout << "ScaleX: " << scaleX << " ScaleY: " << scaleY <<endl; 
  
        //rectangle = rectexture2; 
@@ -128,7 +123,7 @@ void player::LoadTexture(SDL_Renderer *renderer)
     else 
     {
         SDL_QueryTexture(texture, NULL, NULL, &dimension_w, &dimension_h); // récuperation des dimensions de la texture
-        SDL_Rect rectexture2 = {xRect, yRect, (dimension_w * scaleX), (dimension_h * scaleY)}; // Rectangle pour afficher l'image
+        SDL_Rect rectexture2 = {xRect, yRect, static_cast<int> (dimension_w * scaleX), static_cast<int>(dimension_h * scaleY)}; // Rectangle pour afficher l'image
         //rectangle = rectexture2; 
         cout << "Chargement de la texture du sprite: " << nom << " Reussi"<< endl;
     }
